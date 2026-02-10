@@ -1,0 +1,16 @@
+FROM amazoncorretto:21-alpine
+VOLUME /tmp
+
+WORKDIR /home/work
+
+COPY . .
+
+RUN ./gradlew clean build bootJar --info
+
+ENV JAVA_OPTS=" -XX:+UseContainerSupport -XX:MaxRAMPercentage=70 -Djava.security.egd=file:/dev/./urandom"
+
+EXPOSE 8080 
+
+USER root
+
+ENTRYPOINT [ "/bin/sh", "-c", "/opt/java/openjdk/bin/java $JAVA_OPTS  -jar ./applications/app-service/build/libs/docker-example.jar" ]
