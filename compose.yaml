@@ -1,0 +1,17 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: deployment/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - app-data:/app/data_good
+    networks:
+      - app-network
+
+networks:
+  app-network:
+
+volumes:
+  app-data:

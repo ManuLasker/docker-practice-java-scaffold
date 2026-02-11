@@ -1,6 +1,10 @@
 package co.com.bancolombia.api;
 
 import lombok.RequiredArgsConstructor;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -14,6 +18,12 @@ public class Handler {
 
     public Mono<ServerResponse> listenGETUseCase(ServerRequest serverRequest) {
         // useCase.logic();
+        try {
+            Files.write(Path.of("/app/data_good/text.txt"), "Hello world".getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ServerResponse.badRequest().bodyValue(e.getMessage());
+        }
         return ServerResponse.ok().bodyValue("");
     }
 
